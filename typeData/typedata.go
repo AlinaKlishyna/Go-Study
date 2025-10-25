@@ -34,8 +34,9 @@ var (
 
 func main() {
 	fmt.Println(str)
-	fmt.Println(symbol)      // Выводит числовое значение символа
-	fmt.Println(string(102)) // Преобразует числовое значение в символ
+	fmt.Println(symbol) // Выводит числовое значение символа
+	var letter = string(102)
+	fmt.Println(letter) // Преобразует числовое значение в символ
 
 	fmt.Println(name, " - ", age)
 }
