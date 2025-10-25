@@ -35,7 +35,7 @@ var (
 func main() {
 	fmt.Println(str)
 	fmt.Println(symbol) // Выводит числовое значение символа
-	var letter = string(102)
+	var letter = rune(102)
 	fmt.Println(letter) // Преобразует числовое значение в символ
 
 	fmt.Println(name, " - ", age)
