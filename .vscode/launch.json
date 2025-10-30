@@ -14,12 +14,26 @@
             "program": "${workspaceFolder}/general/reverse-number"
         },
         {
-            "name": "Launch Package",
+            "name": "Test Package",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/general"
-        }
+        },
+           {
+            "name": "Stroke without duplicates",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/strings/general/symbol-more"
+        },
+           {
+            "name": "Test map",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/map"
+        },
     
     
     ]
