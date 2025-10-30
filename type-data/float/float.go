@@ -30,6 +30,6 @@ func main() {
 	fmt.Println(strconv.FormatFloat(b, 'e', -1, 64)) // 5.791874088e+10
 
 	// !! Использовать fmt для конвертации нежелательно из-за того что производительность ниже по сравнению с strconv
-	fmt.Println(fmt.Sprint(24.53))        // Краткая форма - 24.53
-	fmt.Println(fmt.Sprintf("%f", 20.34)) // Полная форма - 20.340000
+	fmt.Println(fmt.Sprint(24.53)) // Краткая форма - 24.53
+	//fmt.Println(fmt.Sprintf("%f", 20.34)) // Полная форма - 20.340000
 }
