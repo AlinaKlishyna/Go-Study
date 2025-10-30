@@ -7,7 +7,7 @@ import (
 )
 
 // Обьявление переменных с указанием типа
-var hi string
+var greeting string
 var a, b, c int
 var max, min float64
 
@@ -20,7 +20,7 @@ var symbol int32 = 'f'
 var anotherSymbol rune = '?'
 
 // Значения по умолчанию
-var defaultString string // Пустая строка ""
+var emptyString string   // Пустая строка ""
 var defaultInt int       // 0
 var defaultFloat float64 // 0.0
 var defaultBool bool     // false
@@ -39,14 +39,7 @@ var (
 func main() {
 	fmt.Println(str)
 	fmt.Println(symbol) // Выводит числовое значение символа
-	var letter = rune(102)
-	fmt.Println(letter) // Преобразует числовое значение в символ
-
-	fmt.Println(name, " - ", age)
-
-	fmt.Println(str)
-	fmt.Println(symbol) // Выводит числовое значение символа
-	var letter = rune(102)
+	letter := rune(102)
 	fmt.Println(letter) // Преобразует числовое значение в символ
 
 	fmt.Println(name, " - ", age)
@@ -76,7 +69,7 @@ func main() {
 	fmt.Println(math.MaxInt16)  // 32767
 	fmt.Println(math.MaxUint16) // 65535
 
-	fmt.Println(convert(342))
+	fmt.Println(convertToUint16(342))
 
 	// Приведение целых чисел и чисел с плавающей точкой
 	var x int64 = 57
@@ -105,6 +98,6 @@ func main() {
 	fmt.Printf("%s - %T", result, result)
 }
 
-func convert(num int64) uint16 {
+func convertToUint16(num int64) uint16 {
 	return uint16(num)
 }
