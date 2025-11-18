@@ -40,3 +40,6 @@ models:
   User:
     model:
       meetup-graphql/core.User
+  Meetup:
+    model:
+      meetup-graphql/core.Meetup
