@@ -1,30 +1,25 @@
 package main
 
 import (
-	"log"
 	"meetup-graphql/graphql/exec"
+	"meetup-graphql/graphql/middleware"
 	"meetup-graphql/graphql/resolver"
-	"net/http"
-	"os"
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/handler/extension"
 	"github.com/99designs/gqlgen/graphql/handler/lru"
 	"github.com/99designs/gqlgen/graphql/handler/transport"
 	"github.com/99designs/gqlgen/graphql/playground"
+	"github.com/gin-gonic/gin"
 	"github.com/vektah/gqlparser/v2/ast"
 )
 
-const defaultPort = "8080"
-
-func main() {
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = defaultPort
-	}
-
+func graphqlHandler() gin.HandlerFunc {
+	// NewExecutableSchema и Config находятся в файле exec/generated.go
+	// Resolver находится в файле resolver.go
 	srv := handler.New(exec.NewExecutableSchema(exec.Config{Resolvers: &resolver.Resolver{}}))
 
+	// Настройка сервера
 	srv.AddTransport(transport.Options{})
 	srv.AddTransport(transport.GET{})
 	srv.AddTransport(transport.POST{})
@@ -36,9 +31,28 @@ func main() {
 		Cache: lru.New[string](100),
 	})
 
-	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
-	http.Handle("/query", srv)
+	return func(ctx *gin.Context) {
+		srv.ServeHTTP(ctx.Writer, ctx.Request)
+	}
+}
 
-	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
-	log.Fatal(http.ListenAndServe(":"+port, nil))
+func playgroundHandler() gin.HandlerFunc {
+	srv := playground.Handler("GraphQL playground", "/query")
+
+	return func(ctx *gin.Context) {
+		srv.ServeHTTP(ctx.Writer, ctx.Request)
+	}
+}
+
+func main() {
+	router := gin.Default()
+	// Подключаем middleware ДО обработки запросов
+	// Теперь каждый запрос будет упаковывать gin.Context в обычный context.Context,
+	// чтобы потом мы могли доставать его внутри GraphQL резолверов.
+	router.Use(middleware.GinContextToContextMiddleware())
+
+	router.POST("/query", graphqlHandler())
+	router.GET("/", playgroundHandler()) // Playground – обычная HTML страничка для тестирования
+
+	router.Run() // Запускаем HTTP сервер (по умолчанию на :8080)
 }

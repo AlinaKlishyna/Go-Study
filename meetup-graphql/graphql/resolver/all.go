@@ -3,8 +3,10 @@ package resolver
 import (
 	"context"
 	"fmt"
+	"log"
 	"meetup-graphql/core"
 	"meetup-graphql/graphql/exec"
+	"meetup-graphql/graphql/middleware"
 
 	"github.com/google/uuid"
 )
@@ -25,6 +27,12 @@ func (r *queryResolver) Meetups(ctx context.Context) ([]core.Meetup, error) {
 }
 
 func (r *queryResolver) Users(ctx context.Context) ([]core.User, error) {
+	gc, err := middleware.GinContextFromContext(ctx)
+	if err != nil {
+		return nil, err
+	}
+	log.Println("IP user: ", gc.ClientIP())
+	log.Println("User agent: ", gc.GetHeader("User-Agent"))
 	return r.users, nil
 }
 
