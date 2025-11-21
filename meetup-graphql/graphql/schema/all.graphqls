@@ -1,5 +1,7 @@
+scalar UUID
+
 type User {
-    userId: ID!
+    userId: UUID!
     username: String!
     email: String!
 
@@ -16,6 +18,8 @@ type Meetup {
 type Query {
     meetups: [Meetup!]!
     users: [User!]!
+
+    user(id: UUID!): User
 }
 
 input NewUser {
